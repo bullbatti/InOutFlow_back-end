@@ -14,6 +14,10 @@ import java.util.Objects;
         "where l.token = :token "),
 })
 
+@NamedNativeQueries({
+        @NamedNativeQuery(name = "Login.deleteByEmployeeId", query = "DELETE FROM Login l WHERE l.employee = :employeeId")
+})
+
 @Entity
 public class Login {
     
@@ -24,10 +28,10 @@ public class Login {
     @Column(nullable = false, unique = true)
     private String token;
     
-    @Column(name = "generation_time", nullable = false)
-    private LocalDateTime generationTime;
+    @Column(nullable = false)
+    private LocalDateTime version;
     
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "employee_id")
     private Employee employee;
     
@@ -68,21 +72,21 @@ public class Login {
     }
     
     /**
-     * Gets the generation time of the token. To change its value should be used {@link #setGenerationTime(LocalDateTime).
+     * Gets the generation time of the token. To change its value should be used {@link #setVersion(LocalDateTime).
      *
      * @return The token associated with the login.
      */
-    public LocalDateTime getGenerationTime() {
-        return generationTime;
+    public LocalDateTime getVersion() {
+        return version;
     }
     
     /**
      * Sets the generation time of the token
      *
-     * @param generationTime The generation time of the token
+     * @param version The generation time of the token
      */
-    public void setGenerationTime(LocalDateTime generationTime) {
-        this.generationTime = generationTime;
+    public void setVersion(LocalDateTime version) {
+        this.version = version;
     }
     
     /**

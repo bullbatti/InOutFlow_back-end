@@ -1,10 +1,13 @@
 package net.andreabattista.InOutFlow.rs;
 
+import com.fasterxml.jackson.core.util.JacksonFeature;
+import net.andreabattista.InOutFlow.business.SmartCardReader;
 import net.andreabattista.InOutFlow.dao.BaseDao;
 
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
 import java.util.HashSet;
+import java.util.Properties;
 import java.util.Set;
 
 /**
@@ -26,6 +29,10 @@ public class RestApplication extends Application {
         
         classes.add(LoginResource.class);
         classes.add(TrackingResource.class);
+        classes.add(EmployeeResource.class);
+        classes.add(SmartCardResource.class);
+        classes.add(MessageResource.class);
+        classes.add(CompanyResource.class);
         
         classes.add(JacksonConfiguration.class);
         classes.add(HeadersFilter.class);

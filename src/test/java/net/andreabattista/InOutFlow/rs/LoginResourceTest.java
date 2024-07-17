@@ -1,12 +1,9 @@
 package net.andreabattista.InOutFlow.rs;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import net.andreabattista.InOutFlow.business.LoginManager;
-import net.andreabattista.InOutFlow.dto.EmployeeDto;
 import net.andreabattista.InOutFlow.dto.LoginDto;
+import net.andreabattista.InOutFlow.model.AccountType;
 import net.andreabattista.InOutFlow.model.Employee;
-import net.andreabattista.InOutFlow.model.SmartCard;
-import org.h2.engine.User;
 import org.jboss.resteasy.mock.MockDispatcherFactory;
 import org.jboss.resteasy.mock.MockHttpRequest;
 import org.jboss.resteasy.mock.MockHttpResponse;
@@ -15,13 +12,8 @@ import org.junit.jupiter.api.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.OrderBy;
 import javax.persistence.Persistence;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 
@@ -31,9 +23,8 @@ public class LoginResourceTest {
     private static Dispatcher dispatcher;
     private static EntityManager entityManager;
     
-    
-    @BeforeAll
-    public static void dispatcherInit() {
+    @BeforeEach
+    public void dispatcherInit() {
         dispatcher = MockDispatcherFactory.createDispatcher();
         dispatcher.getProviderFactory().registerProvider(JacksonConfiguration.class);
         dispatcher.getRegistry().addSingletonResource(new LoginResource(), "/api");
@@ -47,7 +38,7 @@ public class LoginResourceTest {
         employee.setFirstName("Fabio");
         employee.setLastName("Rossi");
         employee.setBirthdate(LocalDate.of(2000, 4, 4));
-        employee.setAccountType(Employee.Type.ADMINISTRATOR);
+        employee.setAccountType(AccountType.ADMINISTRATOR);
         employee.setPassword("test");
         employee.setPhoneNumber("1234567890");
         employee.setEmailAddress("fabiorossi@email.com");
@@ -58,25 +49,11 @@ public class LoginResourceTest {
     }
     
     @Test @Order(0)
-    public void user() {
-        entityManager.getTransaction().begin();
+    public void getEmployeeFromDbTest() {
+        Employee employee = entityManager.find(Employee.class, 1L);
         
-        Employee employee = new Employee();
-        employee.setFirstName("Marco");
-        employee.setLastName("Verdi");
-        employee.setBirthdate(LocalDate.of(2000, 2, 17));
-        employee.setAccountType(Employee.Type.USER);
-        employee.setPassword("test");
-        employee.setPhoneNumber("0987654321");
-        employee.setEmailAddress("marcoverdi@email.com");
-        employee.setRollNumber("111111");
-        
-        entityManager.persist(employee);
-        entityManager.getTransaction().commit();
-        
-        Employee saved = entityManager.find(Employee.class, employee.getId());
-        
-        Assertions.assertNotNull(saved);
+        Assertions.assertNotNull(employee);
+        Assertions.assertEquals(employee.getPassword(), "test");
     }
     
     // LOGIN TESTS
@@ -93,7 +70,7 @@ public class LoginResourceTest {
         
         String json = new ObjectMapper().writeValueAsString(dto);
         
-        MockHttpRequest request = MockHttpRequest.post("/api/login/").contentType(MediaType.APPLICATION_JSON)
+        MockHttpRequest request = MockHttpRequest.post("/api/login").contentType(MediaType.APPLICATION_JSON)
             .content(json.getBytes(StandardCharsets.UTF_8));
         MockHttpResponse response = new MockHttpResponse();
         dispatcher.invoke(request, response);

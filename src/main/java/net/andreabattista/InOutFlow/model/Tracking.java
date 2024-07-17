@@ -10,9 +10,22 @@ import java.util.Objects;
  * @author bullbatti.
  */
 @NamedQueries({
-    @NamedQuery(name = "Tracking.getByEmployee", query = "select t " +
+    @NamedQuery(name = "Tracking.getByEmployeeAndDate", query = "select t " +
         "from net.andreabattista.InOutFlow.model.Tracking t " +
-        "where t.employee = :employee"),
+        "where t.employee = :employee " +
+        "and date(t.date) >= :startDate " +
+        "and date(t.date) < :endDate "),
+    
+    @NamedQuery(name = "Tracking.countByEmployeeAndDate", query = "select count(t) " +
+        "from net.andreabattista.InOutFlow.model.Tracking t " +
+        "where t.employee = :employee " +
+        "and date(t.date) >= :startDate " +
+        "and date(t.date) < :endDate "),
+
+        @NamedQuery(name = "Tracking.getByEmployeeAndStartDate", query = "select t " +
+                "from net.andreabattista.InOutFlow.model.Tracking t " +
+                "where t.employee = :employee " +
+                "and function('DATE_FORMAT', t.date, '%Y-%m-%d %H:%i') = function('DATE_FORMAT', :startDate, '%Y-%m-%d %H:%i')")
 })
 
 

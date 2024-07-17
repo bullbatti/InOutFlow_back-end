@@ -1,15 +1,19 @@
 package net.andreabattista.InOutFlow.dto;
 
+import net.andreabattista.InOutFlow.model.AccountType;
+
 /**
- * Represents a Data Transfer Object for storing information about an employee.
- *
- * @author bullbatti
+ * Data Transfer Object (DTO) for Employee.
+ * Represents the data of an employee that is transferred between processes.
  */
 public class EmployeeDto {
     private String firstName;
     private String lastName;
     private String rollNumber;
-    private String accountType;
+    private AccountType accountType;
+    private String emailAddress;
+    private boolean changePassword;
+    private String image;
     
     /**
      * Gets the name of the employee. To change its value should be used {@link #setFirstName(String)}.
@@ -66,20 +70,74 @@ public class EmployeeDto {
     }
     
     /**
-     * Gets the type of account that an employee has. To change its value should be used {@link #setAccountType(String)}.
+     * Gets the type of account that an employee has. To change its value should be used {@link #setAccountType(AccountType)}.
      *
      * @return The type of account that an employee has.
      */
-    public String getAccountType() {
+    public AccountType getAccountType() {
         return accountType;
     }
-    
+
     /**
      * Sets the type of account that an employee has.
      *
      * @param accountType The type of account.
      */
-    public void setAccountType(String accountType) {
+    public void setAccountType(AccountType accountType) {
         this.accountType = accountType;
+    }
+
+    /**
+     * Gets the email address associated with the entity.
+     *
+     * @return the email address as a String.
+     */
+    public String getEmailAddress() {
+        return emailAddress;
+    }
+
+    /**
+     * Sets the email address associated with the entity.
+     *
+     * @param emailAddress the new email address to set.
+     */
+    public void setEmailAddress(String emailAddress) {
+        this.emailAddress = emailAddress;
+    }
+
+    /**
+     * Checks if the password change is required.
+     *
+     * @return true if the password change is required, false otherwise.
+     */
+    public boolean isChangePassword() {
+        return changePassword;
+    }
+
+    /**
+     * Gets the image associated with the entity.
+     *
+     * @return the image as a String.
+     */
+    public String getImage() {
+        return image;
+    }
+
+    /**
+     * Sets the image associated with the entity.
+     *
+     * @param image the new image to set.
+     */
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    /**
+     * Sets the password change requirement status.
+     *
+     * @param changePassword the new password change requirement status to set.
+     */
+    public void setChangePassword(boolean changePassword) {
+        this.changePassword = changePassword;
     }
 }

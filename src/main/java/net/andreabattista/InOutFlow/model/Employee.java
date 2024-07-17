@@ -14,38 +14,49 @@ import java.util.Objects;
         "from net.andreabattista.InOutFlow.model.Employee e " +
         "where e.emailAddress = :emailAddress"),
     
+    @NamedQuery( name = "Employee.countByEmail", query = "select count(e) " +
+        "from net.andreabattista.InOutFlow.model.Employee e " +
+        "where e.emailAddress = :emailAddress"),
+    
     @NamedQuery(name = "Employee.getByLoginToken", query = "select e " +
         "from net.andreabattista.InOutFlow.model.Login l " +
         "join l.employee e " +
         "where l.token = :token"),
     
+    @NamedQuery(name = "Employee.getBySmartCard", query = "select e " +
+        "from net.andreabattista.InOutFlow.model.Employee e " +
+        "where e.smartCard = :smartCard"),
+    
     @NamedQuery(name = "Employee.getByCompany", query = "select e " +
         "from net.andreabattista.InOutFlow.model.Employee e " +
-        "join net.andreabattista.InOutFlow.model.Company c " +
-        "where c.businessName = :businessName "),
+        "join net.andreabattista.InOutFlow.model.Company c on e " +
+        "member of c.employees where c.businessName = :businessName "),
+    
+    @NamedQuery(name = "Employee.countByRollNumber", query = "select count(e) " +
+        "from net.andreabattista.InOutFlow.model.Employee e " +
+        "where e.rollNumber = :rollNumber "),
+
+    @NamedQuery(name = "Employee.getByCompanyAndSupportType", query = "select e " +
+            "from net.andreabattista.InOutFlow.model.Employee e " +
+            "join net.andreabattista.InOutFlow.model.Company c on e " +
+            "member of c.employees where c = :company and e.accountType != :accountType and e != :sender"),
+
+    @NamedQuery(name = "Employee.getByAdministratorType", query = "select e " +
+            "from net.andreabattista.InOutFlow.model.Employee e " +
+            "where e.accountType = :accountType and e != :sender"),
+
+    @NamedQuery(name = "Employee.getByPhoneNumber", query = "select e " +
+            "from net.andreabattista.InOutFlow.model.Employee e " +
+            "where e.phoneNumber = :phoneNumber"),
+
+    @NamedQuery(name = "Employee.getByRollNumber", query = "select e " +
+            "from net.andreabattista.InOutFlow.model.Employee e " +
+            "where e.rollNumber = :rollNumber"),
 })
 
 
 @Entity
 public class Employee {
-    
-    public enum Type {
-        
-        /**
-         * Can manage all the data of all the companies that use the web app.
-         * */
-        ADMINISTRATOR,
-        
-        /**
-         * Can manage all of his company's data.
-         * */
-        SUPPORT,
-        
-        /**
-         * Can only view his data.
-         * */
-        USER,
-    }
     
     @Id
     @GeneratedValue( strategy = GenerationType.IDENTITY )
@@ -74,13 +85,19 @@ public class Employee {
     
     @Column(name = "account_type", nullable = false)
     @Enumerated(EnumType.STRING)
-    private Type accountType;
+    private AccountType accountType;
     
-    @OneToOne
+    @OneToOne(cascade = {CascadeType.REMOVE, CascadeType.MERGE})
     @JoinTable(name = "employee_smart_card",
         joinColumns = @JoinColumn( name = "employee_id"),
         inverseJoinColumns = @JoinColumn(name = "smartcard_id"))
     private SmartCard smartCard;
+
+    @Column(name = "is_password_changed", nullable = false)
+    private boolean isPasswordChanged;
+
+    @Column (nullable = false)
+    private String image;
     
     /**
      * Gets the ID of the employee. To change its value should be used {@link #setId(Long)}.
@@ -231,17 +248,17 @@ public class Employee {
      *
      * @return The account type of the employee.
      */
-    public Type getAccountType() {
+    public AccountType getAccountType() {
         return accountType;
     }
     
     /**
      * Sets the account type of the employee.
      *
-     * @param type The new account type to set.
+     * @param accountType The new account type to set.
      */
-    public void setAccountType(Type type) {
-        this.accountType = type;
+    public void setAccountType(AccountType accountType) {
+        this.accountType = accountType;
     }
     
     /**
@@ -261,7 +278,43 @@ public class Employee {
     public void setSmartCard(SmartCard smartCard) {
         this.smartCard = smartCard;
     }
-    
+
+    /**
+     * Checks if the password has been changed.
+     *
+     * @return true if the password has been changed, false otherwise.
+     */
+    public boolean isPasswordChanged() {
+        return isPasswordChanged;
+    }
+
+    /**
+     * Sets the password changed status.
+     *
+     * @param passwordChanged the new password changed status to set.
+     */
+    public void setPasswordChanged(boolean passwordChanged) {
+        isPasswordChanged = passwordChanged;
+    }
+
+    /**
+     * Gets the image associated with the entity.
+     *
+     * @return the image as a String.
+     */
+    public String getImage() {
+        return image;
+    }
+
+    /**
+     * Sets the image associated with the entity.
+     *
+     * @param image the new image to set.
+     */
+    public void setImage(String image) {
+        this.image = image;
+    }
+
     /**
      * Indicates whether some other object is "equal to" this one.
      * The equality comparison is based solely on the ID of the Employee.

@@ -76,6 +76,17 @@ public class BaseDao {
                 entityManager.getTransaction().rollback();
         }
     }
+
+    public void update(Object entity) {
+        try {
+            entityManager.getTransaction().begin();
+            entityManager.merge(entity);
+            entityManager.getTransaction().commit();
+        } catch ( Exception e ) {
+            if (entityManager.getTransaction().isActive() || entityManager.getTransaction().getRollbackOnly())
+                entityManager.getTransaction().rollback();
+        }
+    }
     
     /**
      * Removes an entity object from the database.

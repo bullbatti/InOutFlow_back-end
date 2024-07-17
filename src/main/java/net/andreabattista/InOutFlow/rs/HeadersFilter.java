@@ -29,6 +29,6 @@ public class HeadersFilter implements ContainerResponseFilter {
         headers.add("Access-Control-Allow-Origin", "*");
         headers.add("Access-Control-Allow-Headers", "*");
         headers.add("Access-Control-Expose-Headers", "Authorization");
-        headers.add("Access-Control-Allow-Methods", "GET, POST");
+        headers.add("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
     }
 }

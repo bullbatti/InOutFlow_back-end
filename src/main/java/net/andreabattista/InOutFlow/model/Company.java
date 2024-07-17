@@ -4,6 +4,25 @@ import javax.persistence.*;
 import java.util.List;
 import java.util.Objects;
 
+@NamedQueries({
+    @NamedQuery( name = "Company.getByEmployee", query = "select c " +
+        "from net.andreabattista.InOutFlow.model.Company c " +
+        "join c.employees e " +
+        "where e = :employee"),
+
+    @NamedQuery( name = "Company.getByEmailAddress", query = "select c " +
+            "from net.andreabattista.InOutFlow.model.Company c " +
+            "where c.emailAddress = :emailAddress "),
+
+    @NamedQuery( name = "Company.getByBusinessName", query = "select c " +
+            "from net.andreabattista.InOutFlow.model.Company c " +
+            "where c.businessName = :businessName "),
+
+    @NamedQuery( name = "Company.getByPhoneNumber", query = "select c " +
+            "from net.andreabattista.InOutFlow.model.Company c " +
+            "where c.phoneNumber = :phoneNumber "),
+})
+
 /**
  * Represents a company that uses the system.
  *
@@ -16,7 +35,7 @@ public class Company {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @Column(name = "business_name", nullable = false)
+    @Column(name = "business_name", nullable = false, unique = true)
     private String businessName;
     
     @Column(name = "office_address", nullable = false)
@@ -28,13 +47,13 @@ public class Company {
     @Column(name = "email_address", nullable = false, unique = true)
     private String emailAddress;
     
-    @OneToMany
+    @OneToMany(cascade = {CascadeType.REMOVE, CascadeType.MERGE})
     @JoinTable(name = "company_employee",
         joinColumns = @JoinColumn( name = "company_id"),
         inverseJoinColumns = @JoinColumn(name = "employee_id"))
     private List<Employee> employees;
     
-    @OneToMany
+    @OneToMany(cascade = {CascadeType.REMOVE, CascadeType.MERGE})
     @JoinTable(name = "company_nfc_readers",
         joinColumns = @JoinColumn( name = "company_id"),
         inverseJoinColumns = @JoinColumn(name = "nfc_reader_id"))

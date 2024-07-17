@@ -1,17 +1,34 @@
 package net.andreabattista.InOutFlow.dto;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import net.andreabattista.InOutFlow.business.LocalDateTimeDeserializer;
+
 import java.time.LocalDateTime;
 
 public class TrackingDto {
-    private LocalDateTime date;
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    private LocalDateTime startDate;
+
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    private LocalDateTime endDate;
+
     private String nfcReader;
     
-    public LocalDateTime getDate() {
-        return date;
+    public LocalDateTime getStartDate() {
+        return startDate;
     }
     
-    public void setDate(LocalDateTime date) {
-        this.date = date;
+    public void setStartDate(LocalDateTime startDate) {
+        this.startDate = startDate;
+    }
+    
+    public LocalDateTime getEndDate() {
+        return endDate;
+    }
+    
+    
+    public void setEndDate(LocalDateTime endDate) {
+        this.endDate = endDate;
     }
     
     public String getNfcReader() {

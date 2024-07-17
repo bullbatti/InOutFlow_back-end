@@ -3,6 +3,22 @@ package net.andreabattista.InOutFlow.model;
 import javax.persistence.*;
 import java.util.Objects;
 
+@NamedQueries( {
+    @NamedQuery(name = "SmartCard.getByUUID", query = "select s " +
+        "from net.andreabattista.InOutFlow.model.SmartCard s " +
+        "where s.universalId = :uuid"),
+    
+    @NamedQuery(name = "SmartCard.countByUUID", query = "select count(s) " +
+        "from net.andreabattista.InOutFlow.model.SmartCard s " +
+        "where s.universalId = :uuid"),
+    
+    @NamedQuery(name = "SmartCard.getByEmployeeEmailAddress", query = "select s " +
+        "from net.andreabattista.InOutFlow.model.SmartCard s " +
+        "join net.andreabattista.InOutFlow.model.Employee e " +
+        "on e.smartCard = s " +
+        "where e.emailAddress = :emailAddress"),
+})
+
 /**
  * Represents a smart card in the system.
  *

@@ -33,21 +33,4 @@ public class LoginResource {
                 return ResourceUtility.buildUnauthoraizedResponse(e.getMessage());
             }
     }
-    
-    /**
-     * Endpoint for retrieving user information. Retrieves information about the currently authenticated user
-     *
-     * @param token The authentication token provided in the request header
-     * @return A response containing the user information.
-     */
-    @GET
-    @Path("/user")
-    public Response getUser(@HeaderParam("Authorization") String token) {
-        try {
-            EmployeeDto dto = LoginManager.getUser(token);
-            return ResourceUtility.buildOkResponse(dto);
-        } catch (Exception e) {
-            return ResourceUtility.buildBadResponse(e.getMessage());
-        }
-    }
 }
