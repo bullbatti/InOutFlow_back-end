@@ -35,13 +35,9 @@ public class EmployeeResource {
     @GET
     @Path("/")
     public Response getByToken(@HeaderParam("Authorization") String token) {
-        try {
-            LoginManager.checkTokenValidation(token);
-            EmployeeDto employeeDto = EmployeeManager.getByLoginToken(token);
-            return ResourceUtility.buildOkResponse(employeeDto);
-        } catch (Exception e) {
-            return ResourceUtility.buildBadResponse(e.getMessage());
-        }
+        LoginManager.checkTokenValidation(token);
+        EmployeeDto employeeDto = EmployeeManager.getByLoginToken(token);
+        return ResourceUtility.buildOkResponse(employeeDto);
     }
 
     /**
@@ -57,13 +53,9 @@ public class EmployeeResource {
     @GET
     @Path("/my-company")
     public Response getAllByLoggedUserCompany(@HeaderParam("Authorization") String token) {
-        try {
-            LoginManager.checkTokenValidation(token);
-            List<EmployeeDto> dto = EmployeeManager.getAllByLoggedUserCompany(token);
-            return ResourceUtility.buildOkResponse(dto);
-        } catch (Exception e) {
-            throw new ValidationException(e.getMessage());
-        }
+        LoginManager.checkTokenValidation(token);
+        List<EmployeeDto> dto = EmployeeManager.getAllByLoggedUserCompany(token);
+        return ResourceUtility.buildOkResponse(dto);
     }
 
     /**
@@ -73,7 +65,7 @@ public class EmployeeResource {
      * Returns an HTTP OK response with the list of employees if successful.
      * If an exception occurs, returns an HTTP Bad Request response with the error message.
      *
-     * @param token the authorization token for validating the request.
+     * @param token   the authorization token for validating the request.
      * @param company the CompanyDto object representing the company whose employees are to be retrieved.
      * @return a Response object containing the list of EmployeeDto objects or an error message.
      */
@@ -81,26 +73,18 @@ public class EmployeeResource {
     @Path("/companies")
     @Consumes("application/json")
     public Response getAllBySelectedCompany(@HeaderParam("Authorization") String token, CompanyDto company) {
-        try {
-            LoginManager.checkTokenValidation(token);
-            List<EmployeeDto> newDto = EmployeeManager.getAllBySelectedCompany(token, company);
-            return ResourceUtility.buildOkResponse(newDto);
-        } catch (Exception e) {
-            return ResourceUtility.buildBadResponse(e.getMessage());
-        }
+        LoginManager.checkTokenValidation(token);
+        List<EmployeeDto> newDto = EmployeeManager.getAllBySelectedCompany(token, company);
+        return ResourceUtility.buildOkResponse(newDto);
     }
 
     @POST
     @Path("/message")
     @Consumes("application/json")
     public Response getByMessage(@HeaderParam("Authorization") String token, MessageDto message) {
-        try {
-            LoginManager.checkTokenValidation(token);
-            EmployeeDto newDto = EmployeeManager.getByMessage(message);
-            return ResourceUtility.buildOkResponse(newDto);
-        } catch (Exception e) {
-            return ResourceUtility.buildBadResponse(e.getMessage());
-        }
+        LoginManager.checkTokenValidation(token);
+        EmployeeDto newDto = EmployeeManager.getByMessage(message);
+        return ResourceUtility.buildOkResponse(newDto);
     }
 
     /**
@@ -110,7 +94,7 @@ public class EmployeeResource {
      * Returns an HTTP OK response with the updated list of EmployeeDto objects if successful.
      * If an exception occurs, returns an HTTP Bad Request response with the error message.
      *
-     * @param token the authorization token for validating the request.
+     * @param token            the authorization token for validating the request.
      * @param employeeToInsert the EmployeeToInsertDto object containing the details of the employee to be created.
      * @return a Response object containing the updated list of EmployeeDto objects or an error message.
      */
@@ -118,13 +102,9 @@ public class EmployeeResource {
     @Path("/")
     @Consumes("application/json")
     public Response create(@HeaderParam("Authorization") String token, EmployeeToInsertDto employeeToInsert, CompanyDto company) {
-        try {
-            LoginManager.checkTokenValidation(token);
-            List<EmployeeDto> newDto = EmployeeManager.create(token, employeeToInsert, company);
-            return ResourceUtility.buildOkResponse(newDto);
-        } catch (Exception e) {
-            return ResourceUtility.buildBadResponse(e.getMessage());
-        }
+        LoginManager.checkTokenValidation(token);
+        List<EmployeeDto> newDto = EmployeeManager.create(token, employeeToInsert, company);
+        return ResourceUtility.buildOkResponse(newDto);
     }
 
     /**
@@ -134,7 +114,7 @@ public class EmployeeResource {
      * Returns an HTTP OK response with the updated list of EmployeeDto objects if successful.
      * If an exception occurs, returns an HTTP Bad Request response with the error message.
      *
-     * @param token the authorization token for validating the request.
+     * @param token       the authorization token for validating the request.
      * @param employeeDto the EmployeeDto object containing the updated details of the employee.
      * @return a Response object containing the updated list of EmployeeDto objects or an error message.
      */
@@ -142,13 +122,9 @@ public class EmployeeResource {
     @Path("/modify")
     @Consumes("application/json")
     public Response modifyEmployee(@HeaderParam("Authorization") String token, EmployeeDto employeeDto) {
-        try {
-            LoginManager.checkTokenValidation(token);
-            List<EmployeeDto> newDto = EmployeeManager.modifyEmployee(employeeDto);
-            return ResourceUtility.buildOkResponse(newDto);
-        } catch (Exception e) {
-            return ResourceUtility.buildBadResponse(e.getMessage());
-        }
+        LoginManager.checkTokenValidation(token);
+        List<EmployeeDto> newDto = EmployeeManager.modifyEmployee(employeeDto);
+        return ResourceUtility.buildOkResponse(newDto);
     }
 
     /**
@@ -159,7 +135,7 @@ public class EmployeeResource {
      * Returns an HTTP OK response with a boolean indicating the success of the operation.
      * If an exception occurs, returns an HTTP Bad Request response with the error message.
      *
-     * @param token the authorization token for validating the request.
+     * @param token    the authorization token for validating the request.
      * @param password the new password to set for the user.
      * @return a Response object containing a boolean indicating success or an error message.
      */
@@ -167,12 +143,8 @@ public class EmployeeResource {
     @Consumes("text/plain")
     @Path("/password")
     public Response modifyPassword(@HeaderParam("Authorization") String token, String password) {
-        try {
-            boolean res = EmployeeManager.modifyPassword(token, password);
-            return ResourceUtility.buildOkResponse(res);
-        } catch (Exception e) {
-            return ResourceUtility.buildBadResponse(e.getMessage());
-        }
+        boolean res = EmployeeManager.modifyPassword(token, password);
+        return ResourceUtility.buildOkResponse(res);
     }
 
     /**
@@ -182,7 +154,7 @@ public class EmployeeResource {
      * Returns an HTTP OK response with the updated list of EmployeeDto objects if successful.
      * If an exception occurs, returns an HTTP Bad Request response with the error message.
      *
-     * @param token the authorization token for validating the request.
+     * @param token             the authorization token for validating the request.
      * @param employeesToDelete the list of EmployeeDto objects representing the employees to be deleted.
      * @return a Response object containing the updated list of EmployeeDto objects or an error message.
      */
@@ -190,12 +162,8 @@ public class EmployeeResource {
     @Path("/")
     @Consumes("application/json")
     public Response remove(@HeaderParam("Authorization") String token, List<EmployeeDto> employeesToDelete) {
-        try {
-            LoginManager.checkTokenValidation(token);
-            List<EmployeeDto> newDto = EmployeeManager.remove(employeesToDelete);
-            return ResourceUtility.buildOkResponse(newDto);
-        } catch (Exception e) {
-            return ResourceUtility.buildBadResponse(e.getMessage());
-        }
+        LoginManager.checkTokenValidation(token);
+        List<EmployeeDto> newDto = EmployeeManager.remove(employeesToDelete);
+        return ResourceUtility.buildOkResponse(newDto);
     }
 }

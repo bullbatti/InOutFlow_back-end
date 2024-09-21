@@ -1,0 +1,41 @@
+#services:
+#  backend:
+#    image: tomcat:latest
+#    ports:
+#      - "8000:8000"
+#    volumes:
+#      - ./backend:/usr/local/tomcat/webapps
+#    depends_on:
+#      - db
+#    networks:
+#      - mynetwork
+#
+#  db:
+#    image: mysql:latest
+#    environment:
+#      MYSQL_ROOT_PASSWORD: password
+#      MYSQL_DATABASE: inoutflow
+#    ports:
+#      - "3307:3306"
+#    volumes:
+#      - db_data:/var/lib/mysql
+#
+#  frontend:
+#    build:
+#      context: ../InOutFlow_client
+#      dockerfile: Dockerfile
+#    ports:
+#      - "4200:4200"
+#    depends_on:
+#      - backend
+#    volumes:
+#      - ../InOutFlow_client:/app
+#    command: npm start
+#    networks:
+#      - mynetwork
+#
+#volumes:
+#  db_data:
+#
+#networks:
+#  mynetwork:

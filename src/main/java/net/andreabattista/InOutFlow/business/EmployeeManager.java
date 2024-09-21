@@ -21,6 +21,7 @@ import org.mindrot.jbcrypt.BCrypt;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -86,6 +87,7 @@ public class EmployeeManager {
 
             String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
             employee.setPassword(hashedPassword);
+            employee.setPasswordChanged(true);
             employeeDao.update(employee);
 
             Employee updatedEmployee = getEmployeeByToken(token);
@@ -203,9 +205,12 @@ public class EmployeeManager {
             Employee employee = new Employee();
             employee.setFirstName(newEmployee.getFirstName());
             employee.setLastName(newEmployee.getLastName());
+
+            employee.setBirthdate(LocalDate.parse(newEmployee.getBirthDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss")));
             employee.setPhoneNumber(newEmployee.getPhoneNumber());
             employee.setEmailAddress(newEmployee.getEmailAddress());
             employee.setAccountType(AccountType.valueOf(newEmployee.getAccountType()));
+            employee.setPasswordChanged(false);
 
             LocalDateTime dateTime = LocalDateTime.parse(newEmployee.getBirthDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSX"));
             LocalDate date = dateTime.toLocalDate();

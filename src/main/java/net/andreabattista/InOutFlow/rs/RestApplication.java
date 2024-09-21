@@ -38,6 +38,13 @@ public class RestApplication extends Application {
         classes.add(HeadersFilter.class);
         
         BaseDao.initFactory("DefaultPersistenceUnit");
+
+        /*
+        Algorithm algorithm = Algorithm.HMAC256("inoutflow");
+        JWTVerifier verifier = JWT.require(algorithm)
+                .withIssuer("Baeldung")
+                .build();
+         */
         
         return classes;
     }

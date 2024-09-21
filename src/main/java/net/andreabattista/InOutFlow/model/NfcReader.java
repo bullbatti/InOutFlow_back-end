@@ -8,7 +8,7 @@ import java.util.Objects;
  *
  * @author bullbatti
  */
-@Entity (name = "nfc_reader")
+@Entity (name = "nfc_readers")
 public class NfcReader {
     
     public enum Type {

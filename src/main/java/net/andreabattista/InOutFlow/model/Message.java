@@ -14,7 +14,7 @@ import java.util.Objects;
                 "and m.description = :description"),
 })
 
-@Entity
+@Entity(name = "messages")
 public class Message {
 
     public enum MessageType {

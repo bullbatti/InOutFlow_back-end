@@ -22,7 +22,7 @@ import java.util.List;
  */
 @Path("/tracking")
 public class TrackingResource {
-    
+
     /**
      * Endpoint for retrieving the traces of an employee for a given date.
      *
@@ -32,87 +32,59 @@ public class TrackingResource {
     @GET
     @Path("/{date}")
     public Response getByEmployeeAndDate(@HeaderParam("Authorization") String token, @PathParam("date") String dateStr) {
-        try {
-            LoginManager.checkTokenValidation(token);
-            LocalDateTime date = LocalDateTime.parse(dateStr, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss"));
-            List<TrackingDto> tracking = TrackingManager.getByEmployeeAndDate(token, date);
-            return ResourceUtility.buildOkResponse(tracking);
-        } catch (Exception e) {
-            return ResourceUtility.buildBadResponse(e.getMessage());
-        }
+        LoginManager.checkTokenValidation(token);
+        LocalDateTime date = LocalDateTime.parse(dateStr, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss"));
+        List<TrackingDto> tracking = TrackingManager.getByEmployeeAndDate(token, date);
+        return ResourceUtility.buildOkResponse(tracking);
     }
 
     @POST
     @Consumes("text/plain")
     @Path("/employee-to-modify/{date}")
     public Response getByEmployeeToModifyAndDate(@HeaderParam("Authorization") String token, @PathParam("date") String dateStr, String email) {
-        try {
-            LocalDateTime date = LocalDateTime.parse(dateStr, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss"));
-            LoginManager.checkTokenValidation(token);
-            List<TrackingDto> tracking = TrackingManager.getByEmployeeToModifyAndDate(email, date);
-            return ResourceUtility.buildOkResponse(tracking);
-        } catch (Exception e) {
-            return ResourceUtility.buildBadResponse(e.getMessage());
-        }
+        LocalDateTime date = LocalDateTime.parse(dateStr, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss"));
+        LoginManager.checkTokenValidation(token);
+        List<TrackingDto> tracking = TrackingManager.getByEmployeeToModifyAndDate(email, date);
+        return ResourceUtility.buildOkResponse(tracking);
     }
-    
+
     @GET
     @Path("/last-week-percentages")
     public Response getLastWeekData(@HeaderParam("Authorization") String token) {
-        try {
-            int[] weekData = TrackingManager.getLastWeekData(token);
-            return ResourceUtility.buildOkResponse(weekData);
-        } catch (Exception e) {
-            return ResourceUtility.buildBadResponse(e.getMessage());
-        }
+        int[] weekData = TrackingManager.getLastWeekData(token);
+        return ResourceUtility.buildOkResponse(weekData);
     }
-    
+
     @GET
     @Path("/year-percentages")
     public Response getLastYearData(@HeaderParam("Authorization") String token) {
-        try {
-            ArrayList<Integer[]> yearData = TrackingManager.getCurrentYearData(token);
-            return ResourceUtility.buildOkResponse(yearData);
-        } catch (Exception e) {
-            return ResourceUtility.buildBadResponse(e.getMessage());
-        }
+        ArrayList<Integer[]> yearData = TrackingManager.getCurrentYearData(token);
+        return ResourceUtility.buildOkResponse(yearData);
     }
 
     @POST
     @Path("/new")
     @Consumes("application/json")
     public Response create(@HeaderParam("Authorization") String token, DeleteAndCreateTrackingDto dto) {
-        try {
-            LoginManager.checkTokenValidation(token);
-            boolean res = TrackingManager.create(dto);
-            return ResourceUtility.buildOkResponse(res);
-        } catch (Exception e) {
-            return ResourceUtility.buildBadResponse(e.getMessage());
-        }
+        LoginManager.checkTokenValidation(token);
+        boolean res = TrackingManager.create(dto);
+        return ResourceUtility.buildOkResponse(res);
     }
 
     @PUT
     @Path("/modify")
     @Consumes("application/json")
     public Response modifyTracking(@HeaderParam("Authorization") String token, ModifyTrackingEmployeeDto combined) {
-        try {
-            LoginManager.checkTokenValidation(token);
-            boolean res = TrackingManager.modifyEvent(combined);
-            return ResourceUtility.buildOkResponse(res);
-        } catch (Exception e) {
-            return ResourceUtility.buildBadResponse(e.getMessage());
-        }
+        LoginManager.checkTokenValidation(token);
+        boolean res = TrackingManager.modifyEvent(combined);
+        return ResourceUtility.buildOkResponse(res);
     }
 
     @DELETE
     @Path("/")
     public Response modifyTracking(@HeaderParam("Authorization") String token, DeleteAndCreateTrackingDto deleteAndCreateTrackingDto) {
-        try {
-            LoginManager.checkTokenValidation(token);
-            boolean res = TrackingManager.delete(deleteAndCreateTrackingDto);
-            return ResourceUtility.buildOkResponse(res);
-        } catch (Exception e) {
-            return ResourceUtility.buildBadResponse(e.getMessage());
-        }
+        LoginManager.checkTokenValidation(token);
+        boolean res = TrackingManager.delete(deleteAndCreateTrackingDto);
+        return ResourceUtility.buildOkResponse(res);
     }
 }

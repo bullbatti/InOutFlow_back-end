@@ -55,7 +55,7 @@ import java.util.Objects;
 })
 
 
-@Entity
+@Entity(name = "employees")
 public class Employee {
     
     @Id

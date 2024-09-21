@@ -18,7 +18,7 @@ import java.util.Objects;
         @NamedNativeQuery(name = "Login.deleteByEmployeeId", query = "DELETE FROM Login l WHERE l.employee = :employeeId")
 })
 
-@Entity
+@Entity(name = "logins")
 public class Login {
     
     @Id

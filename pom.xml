@@ -62,6 +62,14 @@
       <version>0.4</version>
     </dependency>
 
+    <!-- Auth0
+    <dependency>
+      <groupId>com.auth0</groupId>
+      <artifactId>java-jwt</artifactId>
+      <version>4.2.1</version>
+    </dependency>
+    -->
+
     <!-- Fake data -->
     <dependency>
       <groupId>net.datafaker</groupId>
@@ -122,6 +130,16 @@
           <target>21</target>
         </configuration>
       </plugin>
+      <plugin>
+        <groupId>org.apache.tomcat.maven</groupId>
+        <artifactId>tomcat7-maven-plugin</artifactId>
+        <version>2.2</version>
+        <configuration>
+          <url>http://localhost:8080/manager/text</url>
+          <server>Tomcat-9.0.94</server>
+          <path>/inoutflow</path>
+        </configuration>
+      </plugin>
     </plugins>
 
     <finalName>InOutFlow_Server</finalName>
@@ -156,6 +174,7 @@
           <artifactId>maven-deploy-plugin</artifactId>
           <version>2.8.2</version>
         </plugin>
+
       </plugins>
     </pluginManagement>
   </build>

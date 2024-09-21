@@ -24,7 +24,7 @@ import java.util.Objects;
  *
  * @author bullbatti
  */
-@Entity(name = "smart_card")
+@Entity(name = "smart_cards")
 public class SmartCard {
     
     @Id

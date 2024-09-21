@@ -30,7 +30,7 @@ import java.util.Objects;
 
 
 
-@Entity
+@Entity(name = "tracking")
 public class Tracking {
     public enum Type {
         ENTRY, EXIT

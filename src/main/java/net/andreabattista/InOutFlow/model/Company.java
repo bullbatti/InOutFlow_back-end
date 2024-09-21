@@ -28,7 +28,7 @@ import java.util.Objects;
  *
  * @author bullbatti
  */
-@Entity
+@Entity(name = "companies")
 public class Company {
     
     @Id

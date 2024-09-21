@@ -165,7 +165,7 @@ public class CompanyManager {
         // validates phone number
         company = companyDao.getByPhoneNumber(companyDto.getPhoneNumber());
         Employee employee = employeeDao.getByPhoneNumber(companyDto.getPhoneNumber());
-        if (companyDto.getPhoneNumber().isBlank() || companyDto.getPhoneNumber().isEmpty() || companyDto.getPhoneNumber() == null || companyDto.getPhoneNumber().length() != 10 || company != null || employee == null) {
+        if (companyDto.getPhoneNumber().isBlank() || companyDto.getPhoneNumber().isEmpty() || companyDto.getPhoneNumber() == null || companyDto.getPhoneNumber().length() != 10 || company != null || employee != null) {
             LOG.warn("Invalid phone number");
             throw new ValidationException("Invalid phone number");
         }
@@ -173,7 +173,7 @@ public class CompanyManager {
         // validates email address
         company = companyDao.getByEmailAddress(companyDto.getEmailAddress());
         employee = employeeDao.getByEmailAddress(companyDto.getEmailAddress());
-        if (companyDto.getEmailAddress().isBlank() || companyDto.getEmailAddress().isEmpty() || companyDto.getEmailAddress() == null || company != null || employee == null) {
+        if (companyDto.getEmailAddress().isBlank() || companyDto.getEmailAddress().isEmpty() || companyDto.getEmailAddress() == null || company != null || employee != null) {
             LOG.warn("Invalid email address");
             throw new ValidationException("Invalid email address");
         }
