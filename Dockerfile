@@ -1,4 +1,4 @@
-FROM maven:3.8.4-jdk-21 AS build
+FROM maven:3.9.8-eclipse-temurin-21 AS build
 WORKDIR /app
 COPY . .
 RUN mvn clean package
