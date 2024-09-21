@@ -9,7 +9,7 @@ import java.util.*;
 
 public class PersistData {
     
-    public static void main(String[] args) throws Exception {
+    public static void persist() {
         BaseDao.initFactory("DefaultPersistenceUnit");
 
         SmartCardDao smartCardDao = new SmartCardDao();
