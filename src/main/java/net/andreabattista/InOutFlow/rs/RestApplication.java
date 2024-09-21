@@ -1,6 +1,7 @@
 package net.andreabattista.InOutFlow.rs;
 
 import com.fasterxml.jackson.core.util.JacksonFeature;
+import net.andreabattista.InOutFlow.business.PersistData;
 import net.andreabattista.InOutFlow.business.SmartCardReader;
 import net.andreabattista.InOutFlow.dao.BaseDao;
 
@@ -33,7 +34,8 @@ public class RestApplication extends Application {
         classes.add(SmartCardResource.class);
         classes.add(MessageResource.class);
         classes.add(CompanyResource.class);
-        
+        classes.add(PersistDataResource.class);
+
         classes.add(JacksonConfiguration.class);
         classes.add(HeadersFilter.class);
         
